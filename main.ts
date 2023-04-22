@@ -95,7 +95,7 @@ async function handleRequest(request: Request): Promise<Response> {
 
   // Add a very basic API key check.
   if (!authKey || authKey !== Deno.env.get("API_KEY")) {
-    return new Response("Not allowed: Key Error", { status: 403 });
+    return new Response(`Not allowed: Key Error ${authKey}`, { status: 403 });
   }
 
   const payload: RequestInit = {

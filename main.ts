@@ -1,6 +1,4 @@
 import { serve } from "https://deno.land/std@0.181.0/http/server.ts";
-import { h, html } from "https://deno.land/x/htm@0.0.10/mod.tsx";
-import { UnoCSS } from "https://deno.land/x/htm@0.0.10/plugins.ts";
 
 // The name of your Azure OpenAI Resource.
 const resourceName = Deno.env.get("RESOURCE_NAME") || "null";

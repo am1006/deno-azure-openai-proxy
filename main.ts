@@ -1,4 +1,6 @@
 import { serve } from "https://deno.land/std@0.181.0/http/server.ts";
+import { h, html } from "https://deno.land/x/htm@0.0.10/mod.tsx";
+import { UnoCSS } from "https://deno.land/x/htm@0.0.10/plugins.ts";
 
 // The name of your Azure OpenAI Resource.
 const resourceName = Deno.env.get("RESOURCE_NAME") || "null";
@@ -26,6 +28,42 @@ async function handleRequest(request: Request): Promise<Response> {
 
   let path: string;
 
+  if (url.password === "/") {
+    // Health check
+    const html = `
+    <html>
+      <head>
+        <title>Azure API</title>
+        <style>
+          body {  
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: #333;
+          }
+          .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Hello World!</h1>
+          <p>The quieter you become, the more you are able to hear.</p>
+        </div>
+      </body>
+    </html>
+    `;
+
+    return new Response(html, {
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+      },
+      status: 200,
+    });
+  }
   if (url.pathname === "/v1/chat/completions") {
     // Chat
     path = "chat/completions";
@@ -77,6 +115,7 @@ async function handleRequest(request: Request): Promise<Response> {
 
   if (response.body) {
     stream(response.body, writable);
+
     return new Response(readable, response);
   } else {
     throw new Error("Response body is null");

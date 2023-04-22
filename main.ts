@@ -28,7 +28,7 @@ async function handleRequest(request: Request): Promise<Response> {
 
   let path: string;
 
-  if (url.password === "/") {
+  if (url.pathname === "/") {
     // Health check
     const html = `
     <html>
